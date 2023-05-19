@@ -30,7 +30,7 @@ function Form() {
         onChangeText={setValue}
         value={value}
         placeholder="Todo name"
-        onEndEditing={createHandler}
+        onSubmitEditing={createHandler}
       />
       <Pressable
         disabled={!value}
