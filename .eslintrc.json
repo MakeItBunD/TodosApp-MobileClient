@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "plugins": ["@typescript-eslint", "import", "react-hooks"],
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
+  ],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./",
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/jsx-props-no-spreading": "off",
+    "no-multiple-empty-lines": "error",
+    "indent": ["error", 2],
+    "linebreak-style": 0,
+    "import/no-extraneous-dependencies": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "no-underscore-dangle": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "import/extensions": "off",
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "no-use-before-define": "off",
+    "react/style-prop-object": "off"
+}
+}
