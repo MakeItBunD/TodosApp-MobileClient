@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text, StyleSheet, View, TextInput,
 } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import axios from 'axios';
 import ITodo from '../../interfaces/ITodo';
 import ModalUI from '../UI/modal/ModalUI';
@@ -13,6 +14,7 @@ type ItemProps = {
 
 export default function TodoItem({ item }: ItemProps) {
   const [value, setValue] = useState<string>(item.title);
+  const [isChecked, setChecked] = useState(item.isCompleted);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isShowInput, setIsShowInput] = useState<boolean>(false);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -21,6 +23,7 @@ export default function TodoItem({ item }: ItemProps) {
     try {
       await axios.put(`http://192.168.1.7:8080/todos/${item._id}`, {
         title: value,
+        isCompleted: isChecked,
       });
     } catch (error) {
       setErrorMessage(error.response.data.message);
@@ -29,6 +32,10 @@ export default function TodoItem({ item }: ItemProps) {
       setIsShowInput(false);
     }
   };
+
+  useEffect(() => {
+    updateHandler();
+  }, [isChecked]);
 
   const deleteHandler = async () => {
     try {
@@ -43,6 +50,11 @@ export default function TodoItem({ item }: ItemProps) {
       <ModalUI visible={!!errorMessage} title={errorMessage ?? 'Something goes wrong'} onCLose={() => setErrorMessage('')} onOk={() => setErrorMessage('')} />
       <ModalUI visible={isShowModal} title="Are you sure you want to delete this todo?" onCLose={() => setIsShowModal(false)} onOk={deleteHandler} />
       <View style={styles.container}>
+        <Checkbox
+          style={styles.checkBox}
+          value={isChecked}
+          onValueChange={setChecked}
+        />
         {isShowInput
           ? (
             <TextInput
@@ -100,6 +112,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
+  },
+
+  checkBox: {
+    marginRight: 5,
   },
 
   button: {
